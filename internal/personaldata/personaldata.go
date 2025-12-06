@@ -5,8 +5,8 @@ import "fmt"
 type Personal struct {
 	// TODO: добавить поля
 	Name   string
-	Weight int
-	Height int
+	Weight float64
+	Height float64
 }
 
 func (p Personal) Print() {

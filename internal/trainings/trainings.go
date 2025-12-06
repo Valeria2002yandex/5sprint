@@ -65,7 +65,7 @@ func (t Training) ActionInfo() (string, error) {
 
 	switch activity {
 	case "Бег":
-		calories, err := spentenergy.RunningSpentCalories(t.Steps, float64(t.Personal.Height), float64(t.Personal.Weight), t.Duration)
+		calories, err := spentenergy.RunningSpentCalories(t.Steps, t.Personal.Height, t.Personal.Weight, t.Duration)
 
 		if err != nil {
 			return "", err
@@ -78,7 +78,7 @@ func (t Training) ActionInfo() (string, error) {
 
 	case "Ходьба":
 
-		calories, err := spentenergy.WalkingSpentCalories(t.Steps, float64(t.Personal.Height), float64(t.Personal.Weight), t.Duration)
+		calories, err := spentenergy.WalkingSpentCalories(t.Steps, t.Personal.Height, t.Personal.Weight, t.Duration)
 		if err != nil {
 			return "", err
 		}
