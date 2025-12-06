@@ -1,13 +1,72 @@
 package daysteps
 
+import (
+	"errors"
+	"fmt"
+	"strconv"
+	"strings"
+	"time"
+
+	"github.com/Yandex-Practicum/tracker/internal/personaldata"
+	"github.com/Yandex-Practicum/tracker/internal/spentenergy"
+)
+
 type DaySteps struct {
 	// TODO: добавить поля
+	Steps    int
+	Duration time.Duration
+	Personal personaldata.Personal
 }
 
 func (ds *DaySteps) Parse(datastring string) (err error) {
 	// TODO: реализовать функцию
+	parts := strings.Split(datastring, ",")
+
+	if len(parts) != 3 {
+		err := errors.New("data parse error")
+		return err
+	}
+
+	var steps int
+	steps, err = strconv.Atoi(parts[0])
+	if err != nil {
+		err = fmt.Errorf("failed to parse steps '%s': %w", parts[0], err)
+		return
+	}
+	if steps <= 0 {
+		err = errors.New("the number of steps is less than or equal to 0")
+		return err
+	}
+
+	ds.Steps = steps
+
+	var dur time.Duration
+	dur, err = time.ParseDuration(parts[2])
+	if err != nil {
+		return err
+	}
+
+	if dur <= 0 {
+		err = errors.New("duration must be greater than 0")
+		return err
+	}
+
+	ds.Duration = dur
+
+	return
 }
 
 func (ds DaySteps) ActionInfo() (string, error) {
 	// TODO: реализовать функцию
+
+	dist := spentenergy.Distance(ds.Steps, float64(ds.Personal.Height))
+
+	calories, err := spentenergy.WalkingSpentCalories(ds.Steps, float64(ds.Personal.Height), float64(ds.Personal.Weight), ds.Duration)
+	if err != nil {
+		return "", err
+	}
+
+	result := fmt.Sprintf("Количество шагов: %d. Дистанция составила: %.2f. Вы сожгли: %.2f.", ds.Steps, dist, calories)
+
+	return result, nil
 }
