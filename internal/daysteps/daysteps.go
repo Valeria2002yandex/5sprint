@@ -15,7 +15,7 @@ type DaySteps struct {
 	// TODO: добавить поля
 	Steps    int
 	Duration time.Duration
-	Personal personaldata.Personal
+	personaldata.Personal
 }
 
 func (ds *DaySteps) Parse(datastring string) (err error) {
