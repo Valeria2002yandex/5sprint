@@ -16,7 +16,7 @@ type Training struct {
 	Steps        int
 	TrainingType string
 	Duration     time.Duration
-	Personal     personaldata.Personal
+	personaldata.Personal
 }
 
 func (t *Training) Parse(datastring string) (err error) {
