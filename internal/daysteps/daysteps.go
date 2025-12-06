@@ -43,17 +43,16 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	var dur time.Duration
 	dur, err = time.ParseDuration(parts[2])
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to parse duration '%s': %w", parts[2], err)
 	}
 
 	if dur <= 0 {
-		err = errors.New("duration must be greater than 0")
-		return err
+		return errors.New("duration must be greater than 0")
 	}
 
 	ds.Duration = dur
 
-	return
+	return nil
 }
 
 func (ds DaySteps) ActionInfo() (string, error) {
@@ -66,7 +65,7 @@ func (ds DaySteps) ActionInfo() (string, error) {
 		return "", err
 	}
 
-	result := fmt.Sprintf("Количество шагов: %d. Дистанция составила: %.2f. Вы сожгли: %.2f.", ds.Steps, dist, calories)
+	result := fmt.Sprintf("Количество шагов: %d.\n Дистанция составила: %.2f.\n Вы сожгли: %.2f.", ds.Steps, dist, calories)
 
 	return result, nil
 }

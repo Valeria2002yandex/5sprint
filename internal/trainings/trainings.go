@@ -24,19 +24,16 @@ func (t *Training) Parse(datastring string) (err error) {
 	parts := strings.Split(datastring, ",")
 
 	if len(parts) != 3 {
-		err := errors.New("data parse error")
-		return err
+		return fmt.Errorf("failed to parse steps '%s': %w", parts[0], err)
 	}
 
 	var steps int
 	steps, err = strconv.Atoi(parts[0])
 	if err != nil {
-		err = fmt.Errorf("failed to parse steps '%s': %w", parts[0], err)
-		return
+		return fmt.Errorf("failed to parse steps '%s': %w", parts[0], err)
 	}
 	if steps <= 0 {
-		err = errors.New("the number of steps is less than or equal to 0")
-		return err
+		return errors.New("the number of steps must be greater than 0")
 	}
 
 	t.Steps = steps
@@ -44,16 +41,15 @@ func (t *Training) Parse(datastring string) (err error) {
 	var dur time.Duration
 	dur, err = time.ParseDuration(parts[2])
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to parse duration '%s': %w", parts[2], err)
 	}
 
 	if dur <= 0 {
-		err = errors.New("duration must be greater than 0")
-		return err
+		return errors.New("duration must be greater than 0")
 	}
 
 	t.Duration = dur
-	return
+	return nil
 }
 
 func (t Training) ActionInfo() (string, error) {
