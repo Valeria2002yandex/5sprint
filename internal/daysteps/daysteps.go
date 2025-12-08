@@ -22,7 +22,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	// TODO: реализовать функцию
 	parts := strings.Split(datastring, ",")
 
-	if len(parts) != 3 {
+	if len(parts) != 2 {
 		return fmt.Errorf("data parse error: expected 3 parts (steps,name,duration), got %d", len(parts))
 	}
 
@@ -38,13 +38,6 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	}
 
 	ds.Steps = steps
-
-	name := strings.TrimSpace(parts[1])
-	if name == "" {
-		return errors.New("user name cannot be empty")
-	}
-
-	ds.Personal = personaldata.Personal{Name: name}
 
 	var dur time.Duration
 	dur, err = time.ParseDuration(parts[2])
