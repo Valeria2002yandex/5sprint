@@ -43,7 +43,8 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	if name == "" {
 		return errors.New("user name cannot be empty")
 	}
-	ds.Name = name
+
+	ds.Personal = personaldata.Personal{Name: name}
 
 	var dur time.Duration
 	dur, err = time.ParseDuration(parts[2])

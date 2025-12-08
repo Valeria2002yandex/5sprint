@@ -89,9 +89,9 @@ func (t Training) ActionInfo() (string, error) {
 		return result, nil
 
 	default:
-
 		err := errors.New("неизвестный тип тренировки")
 		return "", err
+
 	}
 
 }
