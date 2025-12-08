@@ -38,6 +38,13 @@ func (t *Training) Parse(datastring string) (err error) {
 
 	t.Steps = steps
 
+	name := strings.TrimSpace(parts[1])
+	if name == "" {
+		return errors.New("user name cannot be empty")
+	}
+
+	t.Personal = personaldata.Personal{Name: name}
+
 	var dur time.Duration
 	dur, err = time.ParseDuration(parts[2])
 	if err != nil {
