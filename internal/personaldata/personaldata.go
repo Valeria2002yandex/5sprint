@@ -11,8 +11,6 @@ type Personal struct {
 
 func (p Personal) Print() {
 	// TODO: реализовать функцию
-	fmt.Println("Имя:", p.Name)
-	fmt.Println("Вес:", p.Weight)
-	fmt.Println("Рост:", p.Height)
+	fmt.Printf("Имя: %s.\nВес: %.2f кг.\nРост: %.2f м.", p.Name, p.Weight, p.Height/100)
 
 }

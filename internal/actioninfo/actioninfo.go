@@ -22,11 +22,9 @@ func Info(dataset []string, dp DataParser) {
 
 		infoString, err := dp.ActionInfo()
 		if err != nil {
-
 			log.Printf("Ошибка формирования информации об активности после парсинга '%s': %v", val, err)
 			continue
 		}
-
 		fmt.Println(infoString)
 	}
 }

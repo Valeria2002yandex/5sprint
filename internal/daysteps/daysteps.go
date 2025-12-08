@@ -23,8 +23,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	parts := strings.Split(datastring, ",")
 
 	if len(parts) != 3 {
-		err := errors.New("data parse error")
-		return err
+		return fmt.Errorf("data parse error: expected 3 parts (steps,name,duration), got %d", len(parts))
 	}
 
 	var steps int
@@ -39,6 +38,12 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	}
 
 	ds.Steps = steps
+
+	name := strings.TrimSpace(parts[1])
+	if name == "" {
+		return errors.New("user name cannot be empty")
+	}
+	ds.Name = name
 
 	var dur time.Duration
 	dur, err = time.ParseDuration(parts[2])
@@ -65,7 +70,7 @@ func (ds DaySteps) ActionInfo() (string, error) {
 		return "", err
 	}
 
-	result := fmt.Sprintf("Количество шагов: %d.\n Дистанция составила: %.2f.\n Вы сожгли: %.2f.", ds.Steps, dist, calories)
+	result := fmt.Sprintf("Количество шагов: %d.\n Дистанция составила: %.2f км.\n Вы сожгли: %.2f ккал.", ds.Steps, dist, calories)
 
 	return result, nil
 }

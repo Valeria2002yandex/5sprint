@@ -24,7 +24,7 @@ func (t *Training) Parse(datastring string) (err error) {
 	parts := strings.Split(datastring, ",")
 
 	if len(parts) != 3 {
-		return fmt.Errorf("failed to parse steps '%s': %w", parts[0], err)
+		return fmt.Errorf("data parse error: expected 3 parts (steps,activityType,duration), got %d in '%s'", len(parts), datastring)
 	}
 
 	var steps int
@@ -54,12 +54,10 @@ func (t *Training) Parse(datastring string) (err error) {
 
 func (t Training) ActionInfo() (string, error) {
 	// TODO: реализовать функцию
-	dist := spentenergy.Distance(t.Steps, float64(t.Personal.Height))
-	speed := spentenergy.MeanSpeed(t.Steps, float64(t.Personal.Height), t.Duration)
+	dist := spentenergy.Distance(t.Steps, t.Personal.Height)
+	speed := spentenergy.MeanSpeed(t.Steps, t.Personal.Height, t.Duration)
 
-	var activity string
-
-	switch activity {
+	switch t.TrainingType {
 	case "Бег":
 		calories, err := spentenergy.RunningSpentCalories(t.Steps, t.Personal.Height, t.Personal.Weight, t.Duration)
 
