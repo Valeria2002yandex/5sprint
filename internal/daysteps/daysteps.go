@@ -42,7 +42,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	var dur time.Duration
 	dur, err = time.ParseDuration(parts[1])
 	if err != nil {
-		return fmt.Errorf("failed to parse duration '%s': %w", parts[2], err)
+		return fmt.Errorf("failed to parse duration '%s': %w", parts[1], err)
 	}
 
 	if dur <= 0 {
